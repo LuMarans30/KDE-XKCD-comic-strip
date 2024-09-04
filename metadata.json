@@ -1,0 +1,19 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "andreamarano2004@gmail.com",
+                "Name": "Andrea Marano"
+            }
+        ],
+        "Description": "XKCD daily comic",
+        "Icon": "icon.png",
+        "Id": "xkcd-comic",
+        "License": "GPLv2",
+        "Name": "XKCD Comic",
+        "Name[it]": "Fumetto XKCD",
+        "Version": "1.0",
+        "Website": "https://store.kde.org/"
+    },
+    "X-KDE-PlasmaComicProvider-SuffixType": "Number"
+}

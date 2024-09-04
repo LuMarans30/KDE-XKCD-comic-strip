@@ -1,0 +1,15 @@
+[Desktop Entry]
+Name=XKCD Comic
+Comment=XKCD daily comic
+Type=Service
+X-KDE-ServiceTypes=Plasma/Comic
+Icon=icon.png
+
+X-KDE-Library=plasma_comic_krossprovider
+X-KDE-PluginInfo-Author=Andrea Marano
+X-KDE-PluginInfo-Email=andreamarano2004@gmail.com
+X-KDE-PluginInfo-Name=xkcd-comic
+X-KDE-PluginInfo-Version=1.0
+X-KDE-PluginInfo-License=GPLv2
+X-KDE-PluginInfo-EnabledByDefault=true
+X-KDE-PlasmaComicProvider-SuffixType=Number
