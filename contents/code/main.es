@@ -26,30 +26,42 @@ init = () => {
     comic.firstIdentifier = 1;
     comic.shopUrl = "https://store.kde.org/";
 
-    getComic();
+    getComic(false); // get the latest comic (User)
 }
 
 //Retrieved JSON of current comic
 pageRetrieved = (id, data, metadata) => {
-    if (id === comic.Image) {
-        print("Received comic image data.");
+    if (id == comic.Image) {
+        print("Image received");
         return;
     }
 
+    let obj;
+
     try {
-        processComic(id, JSON.parse(data));
+        obj = JSON.parse(data);
     } catch (ex) {
-        print("Error: " + ex + "\nJSON Parser error " + data)
+        print("Error: " + ex + "\nTried to parse: " + data)
         comic.error();
         return;
     }
+
+    if (id == comic.User) {
+        getComic(true); // get the latest comic (Page)
+        comic.lastIdentifier = obj.num;
+    }
+
+    if (id == comic.Page) {
+        processComic(id, obj); // process the comic (Image)
+    }
 }
 
+// Get the image and metadata of the comic
 processComic = (id, jsonData) => {
     // Boring stuff
     print("json data " + JSON.stringify(jsonData) + " identifier " + id + " last identifier " + jsonData.num + " title " + jsonData.title);
 
-    // Set objects
+    // Set objects properties
     comic.title = jsonData.title;
     comic.websiteUrl = `https://xkcd.com/${jsonData.num}`;
     comic.additionalText = jsonData.alt;
@@ -58,5 +70,6 @@ processComic = (id, jsonData) => {
     comic.requestPage(jsonData.img, comic.Image);
 }
 
-//Gets the latest comic if identifierSpecified is not set, else it gets the comic with the requested number
-getComic = () => comic.requestPage(`https://xkcd.com/${comic.identifierSpecified ? comic.identifier : ''}/info.0.json`, comic.Page);
+// Gets the latest comic if identifierSpecified is not set, else it gets the comic with the requested number
+// Page if flag is true, User if flag is false
+getComic = (flag) => comic.requestPage(`https://xkcd.com/${comic.identifierSpecified ? comic.identifier + '/' : ''}info.0.json`, flag ? comic.Page : comic.User);
