@@ -26,7 +26,7 @@ init = () => {
     comic.firstIdentifier = 1;
     comic.shopUrl = "https://store.kde.org/";
 
-    getComic(false); // get the latest comic (User)
+    getComic("User"); // get the latest comic (User)
 }
 
 //Retrieved JSON of current comic
@@ -47,7 +47,7 @@ pageRetrieved = (id, data, metadata) => {
     }
 
     if (id == comic.User) {
-        getComic(true); // get the latest comic (Page)
+        getComic("Page"); // get the latest comic (Page)
         comic.lastIdentifier = obj.num;
     }
 
@@ -71,5 +71,4 @@ processComic = (id, jsonData) => {
 }
 
 // Gets the latest comic if identifierSpecified is not set, else it gets the comic with the requested number
-// Page if flag is true, User if flag is false
-getComic = (flag) => comic.requestPage(`https://xkcd.com/${comic.identifierSpecified ? comic.identifier + '/' : ''}info.0.json`, flag ? comic.Page : comic.User);
+getComic = (id) => comic.requestPage(`https://xkcd.com/${comic.identifierSpecified ? comic.identifier + '/' : ''}info.0.json`, id == "Page" ? comic.Page : comic.User);
