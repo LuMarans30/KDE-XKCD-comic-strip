@@ -15,5 +15,7 @@
         "Version": "1.0",
         "Website": "https://store.kde.org/"
     },
-    "X-KDE-PlasmaComicProvider-SuffixType": "Number"
+    "X-KDE-PlasmaComicProvider-SuffixType": "Number",
+    "X-KDE-Library": "plasma_comic_krossprovider",
+    "X-KDE-ServiceTypes": "Plasma/Comic"
 }
