@@ -2,12 +2,12 @@
  * Initializes the comic properties and fetches the comic based on the identifier specified.
  */
 init = () => {
-    comic.comicAuthor = "Randall Munroe";
-    comic.firstIdentifier = 1;
-    comic.shopUrl = "https://store.kde.org/";
+    comic.comicAuthor = "Randall Munroe"
+    comic.firstIdentifier = 1
+    comic.shopUrl = "https://store.kde.org/"
 
-    const { identifierSpecified, Page, User } = comic;
-    getComic(identifierSpecified, identifierSpecified ? Page : User);
+    const { identifierSpecified, Page, User } = comic
+    getComic(identifierSpecified, identifierSpecified ? Page : User)
 }
 
 /**
@@ -16,36 +16,34 @@ init = () => {
  * @param {string} data - The JSON data string.
  */
 pageRetrieved = (id, data) => {
-    if (id === comic.Image) {
-        print("Image received");
-        return;
-    }
-
-    let obj;
+    let obj
 
     try {
-        obj = JSON.parse(data);
+        obj = typeof data === "string" && JSON.parse(data)
     } catch (ex) {
-        print(`Error: ${ex}\nTried to parse: ${data}`);
-        comic.error();
-        return;
+        print(`Error: ${ex}\nTried to parse: ${data}`)
+        comic.error()
+        return
     }
 
-    const { User, Page } = comic;
+    const { User, Page, Image } = comic
 
     switch (id) {
         case User:
-            comic.lastIdentifier = obj.num;
-            getComic(false, Page); // Fetch the comic with the requested identifier
-            break;
+            comic.lastIdentifier = obj.num
+            getComic(false, Page) // Fetch the comic with the requested identifier
+            break
         case Page:
-            processComic(id, obj); // Process the comic's JSON data
-            break;
+            processComic(id, obj) // Process the comic's JSON data
+            break
+        case Image:
+            print(`Image data received for comic #${comic.identifier} at ${comic.websiteUrl}`)
+            return
         default:
-            print(`This function is not configured to handle responses with this ID (${id})`);
-            if (id !== comic.Image) print(`Data returned: ${data}`);
-            comic.error();
-            break;
+            print(`This function is not configured to handle responses with this ID (${id})`)
+            if (id !== comic.Image) print(`Data returned: ${data}`)
+            comic.error()
+            break
     }
 }
 
@@ -56,22 +54,20 @@ pageRetrieved = (id, data) => {
  */
 processComic = (id, jsonData) => {
 
-    const { num, title, alt, img } = jsonData;
+    const { num, title, alt, img } = jsonData
 
-    print(`json data ${JSON.stringify(jsonData)} identifier ${id} last identifier ${num} title ${title}`);
+    print(`json data ${JSON.stringify(jsonData)} identifier ${id} last identifier ${num} title ${title}`)
 
     // Set objects properties
-    comic.title = title;
-    comic.websiteUrl = `https://xkcd.com/${num}`;
-    comic.additionalText = alt;
+    comic.title = title
+    comic.websiteUrl = `https://xkcd.com/${num}`
+    comic.additionalText = alt
 
-    // Set the comic's identifiers for navigation
-    comic.identifier = num;
-    comic.nextIdentifier = comic.lastIdentifier !== num ? num + 1 : comic.firstIdentifier;
-    comic.previousIdentifier = num > comic.firstIdentifier ? num - 1 : comic.lastIdentifier;
+    // Set the comic identifier
+    comic.identifier = num
 
     // Requests the actual comic image
-    comic.requestPage(img, comic.Image);
+    comic.requestPage(img, comic.Image)
 }
 
 /**
@@ -79,4 +75,4 @@ processComic = (id, jsonData) => {
  * @param {boolean} identifierSpecified - Indicates if an identifier is specified.
  * @param {string} id - The identifier for the comic.
  */
-getComic = (identifierSpecified, id) => comic.requestPage(`https://xkcd.com/${identifierSpecified ? comic.identifier + '/' : ''}info.0.json`, id);
+getComic = (identifierSpecified, id) => comic.requestPage(`https://xkcd.com/${identifierSpecified ? comic.identifier + '/' : ''}info.0.json`, id)
