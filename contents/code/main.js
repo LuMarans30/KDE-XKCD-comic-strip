@@ -4,7 +4,7 @@
 init = () => {
     comic.comicAuthor = "Randall Munroe"
     comic.firstIdentifier = 1
-    comic.shopUrl = "https://store.kde.org/"
+    comic.shopUrl = "https://www.pling.com/p/2199417"
 
     const { identifierSpecified, Page, User } = comic
     getComic(identifierSpecified, identifierSpecified ? Page : User)
